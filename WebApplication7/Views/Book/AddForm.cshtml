@@ -1,0 +1,12 @@
+﻿@model Book;
+
+
+<form method="post" asp-action="Add">
+    <input asp-for="Id" placeholder="Id" />
+    <input asp-for="Name" placeholder="Name"/>
+    <input asp-for="Rating" placeholder="Rating" />
+    <input asp-for="Description" placeholder="Description" />
+    <input asp-for="Country" placeholder="Country" />
+    <input asp-for="Author" placeholder="Author" />
+    <button type="submit">Add</button>
+</form>

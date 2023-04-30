@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*@model IEnumerable<Rooftop>;*@
+
+@model HomePageViewModel;
+
+<h1>Index page</h1>
+
+<form method="post" asp-action="Login" asp-controller="Account">
+    <h1>Log in</h1>
+    <input asp-for="Username" placeholder="username" />
+    <input asp-for="Password" placeholder="password" />
+    <button type="submit">Log in</button>
+</form>
+
+Welcome @User.Identity.Name
+
+<form method="post" asp-action="Logout" asp-controller="Account">
+    <button type="submit">Log out</button>
+</form>
+
+
+<a asp-action="AddForm" asp-controller="Book"><button type="submit" asp-action="AddForm">Add new book</button></a>
+
+@foreach (var item in @Model.books)
+{
+    <h2>@item.Name</h2>
+    <h2>@item.Rating</h2>
+    <a href="/Book/Details/@item.Id">Details</a>
+    <form method="post" asp-action="Delete" asp-controller="Book">
+        <input name="Id" value="@item.Id" hidden>
+        <button>Delete</button>
+    </form>
+}
+
+
+<form method="post" asp-action="TopList" asp-controller="Book">
+    <h1>Top list</h1>
+    <button type="submit">Top list</button>
+</form>
+
+<form method="post" asp-action="Country" asp-controller="Book">
+    <h1>Choose country</h1>
+    <label><input type="radio" name="country" value="Portugal" />Portugal</label>
+    <label><input type="radio" name="country" value="Dubai" />Dubai</label>
+    <label><input type="radio" name="country" value="Vietnam" />Vietnam</label>
+    <button type="submit">Country list</button>
+</form>
