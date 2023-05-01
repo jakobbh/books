@@ -48,3 +48,11 @@ Welcome @User.Identity.Name
     <label><input type="radio" name="country" value="Vietnam" />Vietnam</label>
     <button type="submit">Country list</button>
 </form>
+
+
+<h1>Search</h1>
+<form method="post" asp-action="FindBook" asp-controller="API">
+    <input name="author" placeholder="author" />
+    <input name="title" placeholder="title" />
+    <button type="submit">Search</button>
+</form>

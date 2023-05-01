@@ -18,9 +18,7 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddAuthentication("AuthCookie")
     .AddCookie("AuthCookie", options =>
     {
-        options.Cookie.Name = "AuthCookie";
-        options.ExpireTimeSpan = TimeSpan.FromSeconds(20);
-        
+        options.Cookie.Name = "AuthCookie";        
     });
 builder.Services.AddAuthorization(options =>
 {
@@ -30,6 +28,14 @@ builder.Services.AddAuthorization(options =>
     .Requirements.Add(new AuthorDetailsRequirements(2))
     );
 });
+builder.Services.AddSession(options =>
+{
+    // Set a short timeout for easy testing.
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorDetailsRequirementsHandler>();
 
@@ -45,6 +51,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 
