@@ -1,8 +1,9 @@
 ﻿namespace WebApplication7.Models
 {
-    public class Book
+    public class Rating
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public int BookRating { get; set; }
     }
 }

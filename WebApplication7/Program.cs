@@ -13,9 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<WebApplication7.Data.ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IBookReviewRepository, BookReviewRepository>();
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IRatingsRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
 
 builder.Services.AddAuthentication("AuthCookie")
     .AddCookie("AuthCookie", options =>

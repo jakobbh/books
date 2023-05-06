@@ -9,12 +9,10 @@ namespace WebApplication7.Controllers
 {
     public class APIController : Controller
     {
-        private readonly IBookRepository _bookRepository;
-        private readonly IRatingsRepository _ratingsRepository;
+        private readonly IReviewsRepository _ratingsRepository;
 
-        public APIController(IBookRepository bookRepository, IRatingsRepository ratingsRepository)
+        public APIController(IReviewsRepository ratingsRepository)
         {
-            _bookRepository = bookRepository;
             _ratingsRepository = ratingsRepository;
         }
         public IActionResult Index()
@@ -39,7 +37,6 @@ namespace WebApplication7.Controllers
             {
                 string jsontitle = item.GetProperty("volumeInfo").GetProperty("title").GetString();
                 titles.Add(jsontitle);
-
             }
 
             ViewBag.title = titles;
@@ -53,32 +50,29 @@ namespace WebApplication7.Controllers
             string author = items[id].GetProperty("volumeInfo").GetProperty("authors")[0].GetString();
             string description = "test";
 
-            var book = _bookRepository.GetByName(name);
-            if (book != null)
+            var book = _ratingsRepository.GetByTitle(name);
+            if (book == null)
             {
-                ViewBag.book = book;
-            } else
-            {
-                ViewBag.book = "This book is not reviewed yet. Do you want to add a review?";
+                ViewBag.notReviewed = "This book is not reviewed yet, add a review!";
+                return View();
             }
-
-            ViewBag.title = title;
-            ViewBag.author = author;
-            ViewBag.description = description;
-            return View();
+            var model = new ReviewsandRatingViewModel
+            {
+                reviews = book
+            };
+            return View(model);
         }
         public IActionResult MakeReview()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult AddReview(string title, int rating, int id)
+        public IActionResult AddReview(ReviewsandRatingViewModel model)
         {
-            _ratingsRepository.AddReview(title, rating, id);
-            
+            _ratingsRepository.AddReview(model.Title, model.BookRating, model.Id);
             return RedirectToAction("Index", "Home");
-
         }
+
         public IActionResult Delete(int id)
         {
             _ratingsRepository.Delete(id);

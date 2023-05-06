@@ -4,9 +4,18 @@
 @{
 }
 
-@ViewBag.title
-@ViewBag.author
-@ViewBag.description
+@model ReviewsandRatingViewModel;
+
+@if (Model != null)
+{
+    @Model.reviews.Title
+    <br />
+    <h2>Rating: @(((float)Model.reviews.RatingsSum / Model.reviews.ReviewsCount).ToString("0.0"))</h2>
+}
+else {
+    @ViewBag.notReviewed;
+}
+
 
 <br />
 
@@ -14,12 +23,19 @@
 
 <br />
 
-@model Ratings;
-
 
 <form asp-action="AddReview" method="post">
-    <input asp-for="Id" placeholder="Id"/>
-    <input asp-for="Title" placeholder="Title" />
-    <input asp-for="Rating" placeholder="Rating" />
+    <input type="hidden" asp-for="@Model.Title" value="@Model.reviews.Title"/>
+    <input type="hidden" asp-for="@Model.Id" value="@Model.reviews.Id"/>
+
+    <div>
+        <label asp-for="@Model.BookRating">Rating:</label>
+        <input asp-for="@Model.BookRating" />
+    </div>
+
     <button type="submit">Submit</button>
 </form>
+
+
+
+

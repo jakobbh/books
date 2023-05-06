@@ -2,8 +2,9 @@
 
 namespace WebApplication7.Data.Interfaces
 {
-    public interface IRatingsRepository
+    public interface IReviewsRepository
     {
+        Reviews GetByTitle(string title);
         bool AddReview(string title, int rating, int id);
         IEnumerable<Reviews> GetList();
         bool Delete(int id);

@@ -8,14 +8,12 @@ namespace WebApplication7.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IBookReviewRepository _bookRepository;
-        private readonly IRatingsRepository _ratingsRepository;
+        private readonly IReviewsRepository _ratingsRepository;
 
-        public HomeController(ILogger<HomeController> logger, IBookReviewRepository bookRepository, IRatingsRepository ratingsRepository)
+        public HomeController(ILogger<HomeController> logger, IReviewsRepository ratingsRepository)
         {
             _ratingsRepository = ratingsRepository;
             _logger = logger;
-            _bookRepository = bookRepository;
         }
         public IActionResult Index()
         {

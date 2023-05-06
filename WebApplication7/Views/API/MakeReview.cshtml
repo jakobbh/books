@@ -3,11 +3,11 @@
 *@
 @{
 }
-@model Ratings;
+@model Rating;
 
 
 <form asp-action="AddReview" method="post">
     <input asp-for="Title" placeholder="Title"/>
-    <input asp-for="Rating" placeholder="Rating" />
+    <input asp-for="BookRating" placeholder="Rating" />
     <button type="submit">Submit</button>
 </form>
