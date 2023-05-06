@@ -7,6 +7,6 @@
 <ul>
     @for (int i = 0; i<ViewBag.title.Count; i++)
     {
-            <a href="/API/BookDetails/@i"><li>@ViewBag.title[i]</li></a>
+            <a href="/API/BookDetails/@i/@ViewBag.title[i]"><li>@ViewBag.title[i]</li></a>
     }
 </ul>

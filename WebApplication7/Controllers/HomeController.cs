@@ -8,9 +8,9 @@ namespace WebApplication7.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IBookRepository _bookRepository;
+        private readonly IBookReviewRepository _bookRepository;
 
-        public HomeController(ILogger<HomeController> logger, IBookRepository bookRepository)
+        public HomeController(ILogger<HomeController> logger, IBookReviewRepository bookRepository)
         {
             _logger = logger;
             _bookRepository = bookRepository;

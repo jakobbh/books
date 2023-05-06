@@ -9,9 +9,9 @@ namespace WebApplication7.Controllers
 {
     public class BookController : Controller
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IBookReviewRepository _bookRepository;
 
-        public BookController(IBookRepository bookRepository)
+        public BookController(IBookReviewRepository bookRepository)
         {
             _bookRepository = bookRepository;
         }
@@ -28,15 +28,15 @@ namespace WebApplication7.Controllers
         [Authorize(Policy = "MustBeAuthor")]
         public IActionResult Details(int id)
         {
-            Book book = _bookRepository.GetById(id);
+            BookReview book = _bookRepository.GetById(id);
             return View(book);
         }
-        public IActionResult AddForm(Book book)
+        public IActionResult AddForm(BookReview book)
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Add(Book book)
+        public IActionResult Add(BookReview book)
         {
             _bookRepository.Add(book);
             return RedirectToAction("Index");

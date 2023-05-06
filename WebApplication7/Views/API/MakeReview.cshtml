@@ -3,23 +3,11 @@
 *@
 @{
 }
-
-@ViewBag.title
-@ViewBag.author
-@ViewBag.description
-
-<br />
-
-@ViewBag.book
-
-<br />
-
 @model Ratings;
 
 
 <form asp-action="AddReview" method="post">
-    <input asp-for="Id" placeholder="Id"/>
-    <input asp-for="Title" placeholder="Title" />
+    <input asp-for="Title" placeholder="Title"/>
     <input asp-for="Rating" placeholder="Rating" />
     <button type="submit">Submit</button>
 </form>
