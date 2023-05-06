@@ -4,7 +4,7 @@ using WebApplication7.Models;
 
 namespace WebApplication7.Repository
 {
-    public class RatingsRepository : IRatingsRepository
+    public class RatingsRepository /*: IRatingsRepository*/
     {
         private readonly ApplicationDbContext _context;
         public RatingsRepository(ApplicationDbContext context)

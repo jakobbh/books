@@ -72,11 +72,17 @@ namespace WebApplication7.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddReview(Ratings review)
+        public IActionResult AddReview(string title, int rating, int id)
         {
-            _ratingsRepository.AddReview(review);
+            _ratingsRepository.AddReview(title, rating, id);
+            
             return RedirectToAction("Index", "Home");
 
+        }
+        public IActionResult Delete(int id)
+        {
+            _ratingsRepository.Delete(id);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

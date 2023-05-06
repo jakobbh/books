@@ -12,5 +12,6 @@ namespace WebApplication7.Data
         public DbSet<BookReview> Books5 { get; set; }
         public DbSet<Book> Books7 { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
+        public DbSet<Reviews> Reviews { get; set; }
     }
 }

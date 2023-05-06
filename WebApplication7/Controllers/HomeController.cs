@@ -9,16 +9,18 @@ namespace WebApplication7.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBookReviewRepository _bookRepository;
+        private readonly IRatingsRepository _ratingsRepository;
 
-        public HomeController(ILogger<HomeController> logger, IBookReviewRepository bookRepository)
+        public HomeController(ILogger<HomeController> logger, IBookReviewRepository bookRepository, IRatingsRepository ratingsRepository)
         {
+            _ratingsRepository = ratingsRepository;
             _logger = logger;
             _bookRepository = bookRepository;
         }
         public IActionResult Index()
         {
             var HomePageViewModel = new HomePageViewModel();
-            HomePageViewModel.books = _bookRepository.GetList();
+            HomePageViewModel.books = _ratingsRepository.GetList();
             HomePageViewModel.loginModel = new LoginModel();
             return View(HomePageViewModel);
         }
