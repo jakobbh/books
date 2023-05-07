@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication7.Data;
 using WebApplication7.Data.Interfaces;
 using WebApplication7.Models;
@@ -14,35 +15,44 @@ namespace WebApplication7.Repository
         }
         public IEnumerable<Reviews> GetList()
         {
-            return _context.Reviews.ToList();
+            return _context.Reviews2.ToList();
         }
         public Reviews GetByTitle(string title)
         {
-            var review = _context.Reviews.FirstOrDefault(i => i.Title == title);
+            var review = _context.Reviews2.FirstOrDefault(i => i.Title == title);
             return review;
         }
-        public bool AddReview(string title, int bookrating, int id)
+        public IEnumerable<Reviews> GetTopList()
         {
-            if (_context.Reviews.FirstOrDefault<Reviews>(i => i.Title == title) == null)
+            var topList = _context.Reviews2.FromSqlRaw($"SELECT title FROM Reviews SORT BY rating DESC");
+            return topList;
+        }
+        public bool AddReview(string title, int bookrating, string author)
+        {
+            if (_context.Reviews2.FirstOrDefault<Reviews>(i => i.Title == title) == null)
             {
                 Reviews review = new Reviews();
-                review.Id = id;
+                review.TitleAuthor = title + author;
+                review.Author = author;
                 review.Title = title;
-                review.ReviewsCount = 1;
-                review.RatingsSum = bookrating;
-                _context.Reviews.Add(review);
+                review.RatingCount = 1;
+                review.RatingSum = bookrating;
+                review.Rating = bookrating;
+                _context.Reviews2.Add(review);
             }
             else
             {
-                var bookReview = _context.Reviews.FirstOrDefault<Reviews>(i => i.Title == title);
-                bookReview.RatingsSum = bookReview.RatingsSum + bookrating;
-                bookReview.ReviewsCount = bookReview.ReviewsCount + 1;
+                var bookReview = _context.Reviews2.FirstOrDefault<Reviews>(i => i.Title == title);
+                var rating = bookReview.RatingSum + bookrating / bookReview.RatingCount + 1;
+                bookReview.RatingSum = bookReview.RatingSum + bookrating;
+                bookReview.RatingCount = bookReview.RatingCount + 1;
+                bookReview.Rating = rating;
             }
             return Save();
         }
-        public bool Delete(int id)
+        public bool Delete(string title, string author)
         {
-            var book = _context.Reviews.FirstOrDefault(i => i.Id == id);
+            var book = _context.Reviews2.FirstOrDefault(i => i.TitleAuthor == title+author);
             _context.Remove(book);
             return Save();
         }

@@ -22,6 +22,11 @@ namespace WebApplication7.Controllers
             HomePageViewModel.loginModel = new LoginModel();
             return View(HomePageViewModel);
         }
+        public IActionResult TopList()
+        {
+            _ratingsRepository.GetTopList();
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

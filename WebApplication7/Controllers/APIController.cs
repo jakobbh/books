@@ -53,8 +53,14 @@ namespace WebApplication7.Controllers
             var book = _ratingsRepository.GetByTitle(name);
             if (book == null)
             {
-                ViewBag.notReviewed = "This book is not reviewed yet, add a review!";
-                return View();
+                var newModel = new ReviewsandRatingViewModel
+                {
+                    Title = title,
+                    Author = author,
+                    RatingCount = 0,
+                    RatingSum = 0
+                };
+                return View(newModel);
             }
             var model = new ReviewsandRatingViewModel
             {
@@ -69,13 +75,13 @@ namespace WebApplication7.Controllers
         [HttpPost]
         public IActionResult AddReview(ReviewsandRatingViewModel model)
         {
-            _ratingsRepository.AddReview(model.Title, model.BookRating, model.Id);
+            _ratingsRepository.AddReview(model.Title, model.BookRating, model.Author);
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string title, string author)
         {
-            _ratingsRepository.Delete(id);
+            _ratingsRepository.Delete(title, author);
             return RedirectToAction("Index", "Home");
         }
     }

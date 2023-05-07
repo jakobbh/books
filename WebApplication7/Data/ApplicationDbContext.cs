@@ -9,6 +9,6 @@ namespace WebApplication7.Data
         {
 
         }
-        public DbSet<Reviews> Reviews { get; set; }
+        public DbSet<Reviews> Reviews2 { get; set; }
     }
 }

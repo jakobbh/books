@@ -6,35 +6,28 @@
 
 @model ReviewsandRatingViewModel;
 
-@if (Model != null)
+@if (Model.RatingCount > 1)
 {
-    @Model.reviews.Title
+    @Model.Title
     <br />
-    <h2>Rating: @(((float)Model.reviews.RatingsSum / Model.reviews.ReviewsCount).ToString("0.0"))</h2>
+    <h2>Rating: @(((float)Model.RatingSum / Model.RatingCount).ToString("0.0"))</h2>
 }
 else {
-    @ViewBag.notReviewed;
+    <h2>Add book review</h2>
+    <form asp-action="AddReview" method="post">
+        <input type="hidden" asp-for="@Model.TitleAuthor" value="@(Model.Title + Model.Author)" />
+        <input type="hidden" asp-for="@Model.Title" value="@Model.Title" />
+        <input type="hidden" asp-for="@Model.Author" value="@Model.Author" />
+
+        <div>
+            <label asp-for="@Model.BookRating">Rating:</label>
+            <input asp-for="@Model.BookRating" />
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
 }
 
-
-<br />
-
-@ViewBag.book
-
-<br />
-
-
-<form asp-action="AddReview" method="post">
-    <input type="hidden" asp-for="@Model.Title" value="@Model.reviews.Title"/>
-    <input type="hidden" asp-for="@Model.Id" value="@Model.reviews.Id"/>
-
-    <div>
-        <label asp-for="@Model.BookRating">Rating:</label>
-        <input asp-for="@Model.BookRating" />
-    </div>
-
-    <button type="submit">Submit</button>
-</form>
 
 
 
