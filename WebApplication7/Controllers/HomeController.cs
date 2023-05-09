@@ -10,10 +10,10 @@ namespace WebApplication7.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IReviewsRepository _ratingsRepository;
 
-        public HomeController(ILogger<HomeController> logger, IReviewsRepository ratingsRepository)
+        public HomeController(IReviewsRepository ratingsRepository)
         {
             _ratingsRepository = ratingsRepository;
-            _logger = logger;
+            //_logger = logger;
         }
         public IActionResult Index()
         {
