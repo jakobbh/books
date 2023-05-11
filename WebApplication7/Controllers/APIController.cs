@@ -64,7 +64,10 @@ namespace WebApplication7.Controllers
             }
             var model = new ReviewsandRatingViewModel
             {
-                reviews = book
+                Title = book.Title,
+                Author = book.Author,
+                RatingCount = book.RatingCount,
+                RatingSum = book.RatingSum
             };
             return View(model);
         }

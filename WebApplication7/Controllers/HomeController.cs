@@ -24,8 +24,8 @@ namespace WebApplication7.Controllers
         }
         public IActionResult TopList()
         {
-            _ratingsRepository.GetTopList();
-            return View();
+            var topList = _ratingsRepository.GetTopList();
+            return View(topList);
         }
         public IActionResult Privacy()
         {

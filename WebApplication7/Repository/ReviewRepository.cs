@@ -24,7 +24,7 @@ namespace WebApplication7.Repository
         }
         public IEnumerable<Reviews> GetTopList()
         {
-            var topList = _context.Reviews2.FromSqlRaw($"SELECT title FROM Reviews SORT BY rating DESC");
+            var topList = _context.Reviews2.FromSqlRaw($"SELECT TOP 3 * FROM Reviews2 ORDER BY ratingSum DESC").ToList();
             return topList;
         }
         public bool AddReview(string title, int bookrating, string author)

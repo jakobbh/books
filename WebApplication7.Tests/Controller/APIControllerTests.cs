@@ -22,18 +22,24 @@ namespace WebApplication7.Tests.Controller
             _apiController = new APIController(_ratingsRepository);
         }
         [Fact]
-        public void APIController_Detail_ReturnsSuccess()
+        public void APIController_AddReview_ReturnsSuccess()
         {
             //Arrange
-            var id = 1;
-            var name = "Name";
-            var book = A.Fake<Reviews>();
-            A.CallTo(() => _ratingsRepository.GetByTitle(name));
+            //var model2 = A.Fake<ReviewsandRatingViewModel>();
+            var model = new ReviewsandRatingViewModel
+            {
+                Title = "Title",
+                BookRating = 5,
+                Author = "Author"
+            };
+            
             //Act
-            var result = _apiController.BookDetails(id, name);
+            var result = _apiController.AddReview(model);
 
             //Assert
-            Assert.IsType<ViewResult>(result);
+            A.CallTo(() => _ratingsRepository.AddReview("Title", 5, "Author")).MustHaveHappenedOnceExactly();
+            Assert.IsType<RedirectToActionResult>(result);
         }
     }
 }
+

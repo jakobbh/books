@@ -3,14 +3,38 @@
 *@
 @{
 }
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService;
+
 
 @model ReviewsandRatingViewModel;
 
-@if (Model.RatingCount > 1)
+@if (Model.RatingCount > 0)
 {
     @Model.Title
     <br />
     <h2>Rating: @(((float)Model.RatingSum / Model.RatingCount).ToString("0.0"))</h2>
+@*    @if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)*@
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>Add another review.</p>
+        <h2>Add book review</h2>
+        <form asp-action="AddReview" method="post">
+            <input type="hidden" asp-for="@Model.TitleAuthor" value="@(Model.Title + Model.Author)" />
+            <input type="hidden" asp-for="@Model.Title" value="@Model.Title" />
+            <input type="hidden" asp-for="@Model.Author" value="@Model.Author" />
+
+            <div>
+                <label asp-for="@Model.BookRating">Rating:</label>
+                <input asp-for="@Model.BookRating" />
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    } else
+    {
+        <p><a href="/Home/Index">Log in</a> to add a review</p>
+    }
 }
 else {
     <h2>Add book review</h2>
