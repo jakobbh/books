@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using WebApplication7.Data;
 using WebApplication7.Data.Authorization;
 using WebApplication7.Data.Interfaces;
+using WebApplication7.Models;
 using WebApplication7.Repository;
 using static WebApplication7.Data.Authorization.AuthorDetailsRequirements;
 
@@ -14,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<WebApplication7.Data.ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
+
 
 builder.Services.AddAuthentication("AuthCookie")
     .AddCookie("AuthCookie", options =>
@@ -38,7 +42,7 @@ builder.Services.AddSession(options =>
 
 
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorDetailsRequirementsHandler>();
-
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

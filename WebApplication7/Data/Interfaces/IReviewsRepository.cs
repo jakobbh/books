@@ -4,7 +4,7 @@ namespace WebApplication7.Data.Interfaces
 {
     public interface IReviewsRepository
     {
-        Reviews GetByTitle(string title);
+        Reviews GetByTitle(string name);
         IEnumerable<Reviews> GetTopList();
         bool AddReview(string title, int rating, string author);
         IEnumerable<Reviews> GetList();

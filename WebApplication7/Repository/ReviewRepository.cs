@@ -17,9 +17,9 @@ namespace WebApplication7.Repository
         {
             return _context.Reviews2.ToList();
         }
-        public Reviews GetByTitle(string title)
+        public Reviews GetByTitle(string name)
         {
-            var review = _context.Reviews2.FirstOrDefault(i => i.Title == title);
+            var review = _context.Reviews2.FirstOrDefault(i => i.TitleAuthor == name);
             return review;
         }
         public IEnumerable<Reviews> GetTopList()
