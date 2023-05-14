@@ -18,6 +18,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<WebApplication7.Data.ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication("AuthCookie")
     .AddCookie("AuthCookie", options =>
@@ -42,7 +44,7 @@ builder.Services.AddSession(options =>
 
 
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorDetailsRequirementsHandler>();
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

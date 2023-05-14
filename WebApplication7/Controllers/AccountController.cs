@@ -61,7 +61,7 @@ namespace WebApplication7.Controllers
                 return View(model);
             }
 
-            var newUser = new ApplicationUser { Email = model.Email };
+            var newUser = new ApplicationUser { Email = model.Email, UserName = model.UserName };
             var result = await _userManager.CreateAsync(newUser, model.Password);
             if (result.Succeeded)
             {
