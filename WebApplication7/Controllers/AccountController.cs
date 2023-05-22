@@ -1,17 +1,23 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Azure.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using WebApplication7.Data.Interfaces;
 using WebApplication7.Models;
+using WebApplication7.Repository;
 
 namespace WebApplication7.Controllers
 {
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public AccountController(UserManager<ApplicationUser> userManager)
+        private readonly IUserRepository _userRepository;
+        public AccountController(UserManager<ApplicationUser> userManager, IUserRepository userRepository)
         {
             _userManager = userManager;
+            _userRepository = userRepository;
         }
         public IActionResult Login(string returnUrl)
         {
@@ -20,19 +26,22 @@ namespace WebApplication7.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(HomePageViewModel model)
         {
-            if (model.Username == "test")
+            var user = _userRepository.GetUser(model.Email);
+
+            if (model.Email == user.Email)
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, "Name1"),
+                    new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.Role, "Author"),
                     new Claim("CustomProperty", "3")
                 };
                 var identity = new ClaimsIdentity(claims, "AuthCookie");
                 var principal = new ClaimsPrincipal(identity);
 
+                await HttpContext.AuthenticateAsync("AuthCookie");
                 await HttpContext.SignInAsync("AuthCookie", principal);
-
+                var username = HttpContext.User.Identity.Name;
             }
             return RedirectToAction("Index", "Home");
         }

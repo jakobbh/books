@@ -17,14 +17,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<WebApplication7.Data.ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthentication("AuthCookie")
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "AuthCookie";
+    options.DefaultSignInScheme = "AuthCookie";
+    options.DefaultChallengeScheme = "AuthCookie";
+})
     .AddCookie("AuthCookie", options =>
     {
-        options.Cookie.Name = "AuthCookie";        
+        options.Cookie.Name = "AuthCookie";
     });
 builder.Services.AddAuthorization(options =>
 {
