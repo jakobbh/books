@@ -27,6 +27,14 @@ namespace WebApplication7.Controllers
             var book = _ratingsRepository.GetByTitle(name);
             return View(book);
         }
+
+        public IActionResult Favourite(string title, string author)
+        {
+            _ratingsRepository.Favourite(title, author);
+            return RedirectToAction("Index");
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

@@ -12,8 +12,8 @@ using WebApplication7.Data;
 namespace WebApplication7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230514111713_test")]
-    partial class test
+    [Migration("20230603180238_removed-application-key")]
+    partial class removedapplicationkey
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,7 +171,6 @@ namespace WebApplication7.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -193,7 +192,6 @@ namespace WebApplication7.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
@@ -215,10 +213,6 @@ namespace WebApplication7.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -235,6 +229,9 @@ namespace WebApplication7.Migrations
             modelBuilder.Entity("WebApplication7.Models.Reviews", b =>
                 {
                     b.Property<string>("TitleAuthor")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Author")
@@ -255,6 +252,8 @@ namespace WebApplication7.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TitleAuthor");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Reviews2");
                 });
@@ -308,6 +307,18 @@ namespace WebApplication7.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.Reviews", b =>
+                {
+                    b.HasOne("WebApplication7.Models.ApplicationUser", null)
+                        .WithMany("Faavouritess2")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Faavouritess2");
                 });
 #pragma warning restore 612, 618
         }

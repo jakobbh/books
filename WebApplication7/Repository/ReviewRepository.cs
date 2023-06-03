@@ -56,6 +56,13 @@ namespace WebApplication7.Repository
             _context.Remove(book);
             return Save();
         }
+        public bool Favourite(string title, string author)
+        {
+            var book = _context.Reviews2.FirstOrDefault(i => i.TitleAuthor == title+author);
+            var user = _context.AspNetUsers.FirstOrDefault(i => i.UserName == "SecondUser");
+            user.Faavouritess2.Add(book);
+            return Save();
+        }
         public bool Save()
         {
             var saved = _context.SaveChanges();

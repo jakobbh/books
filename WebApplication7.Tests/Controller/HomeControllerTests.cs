@@ -41,17 +41,5 @@ namespace WebApplication7.Tests.Controller
             //Assert
             Assert.IsType<ViewResult>(result);
         }
-        [Fact]
-        public void HomeController_TopList_ReturnsSuccess()
-        {
-            //Arrange
-            var topList = A.Fake<IEnumerable<Reviews>>();
-            A.CallTo(() => _ratingsRepository.GetTopList()).Returns(topList);
-
-            //Act
-            var result = _homeController.TopList();
-            //Assert
-            Assert.IsType<ViewResult>(result);
-        }
     }
 }

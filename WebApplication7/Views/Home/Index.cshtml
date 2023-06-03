@@ -45,6 +45,11 @@
 
 
         <a href="/Home/Details/1/@item.TitleAuthor">Details</a>
+        <form method="post" asp-action="Favourite" asp-controller="Home">
+            <input name="title" value="@item.Title" hidden>
+            <input name="author" value="@item.Author" hidden>
+            <button>Favourite</button>
+        </form>
         <form method="post" asp-action="Delete" asp-controller="API">
             <input name="Id" value="@item.TitleAuthor" hidden>
             <button>Delete</button>

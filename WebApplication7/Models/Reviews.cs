@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication7.Models
 {
@@ -11,12 +12,5 @@ namespace WebApplication7.Models
         public int RatingSum { get; set; }
         public int RatingCount { get; set; }
         public int Rating { get; set; }
-
-        public Reviews()
-        {
-            RatingSum = 0;
-            RatingCount = 0;
-            Rating = 0;
-        }
     }
 }
