@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebApplication7.Data.Interfaces;
 using WebApplication7.Models;
-using WebApplication7.Repository;
 
 namespace WebApplication7.Controllers
 {
@@ -28,20 +27,24 @@ namespace WebApplication7.Controllers
         {
             var user = _userRepository.GetUser(model.Email);
 
-            if (model.Email == user.Email)
+            if(user != null)
             {
-                var claims = new List<Claim>
+                var passwordCheck = await _userManager.CheckPasswordAsync(user, model.Password);
+                if (passwordCheck)
+                {
+                    var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.Role, "Author"),
                     new Claim("CustomProperty", "3")
                 };
-                var identity = new ClaimsIdentity(claims, "AuthCookie");
-                var principal = new ClaimsPrincipal(identity);
+                    var identity = new ClaimsIdentity(claims, "AuthCookie");
+                    var principal = new ClaimsPrincipal(identity);
 
-                await HttpContext.AuthenticateAsync("AuthCookie");
-                await HttpContext.SignInAsync("AuthCookie", principal);
-                var username = HttpContext.User.Identity.Name;
+                    await HttpContext.AuthenticateAsync("AuthCookie");
+                    await HttpContext.SignInAsync("AuthCookie", principal);
+                    var username = HttpContext.User.Identity.Name;
+                }
             }
             return RedirectToAction("Index", "Home");
         }

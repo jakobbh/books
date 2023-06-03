@@ -18,14 +18,9 @@ namespace WebApplication7.Controllers
         public IActionResult Index()
         {
             var HomePageViewModel = new HomePageViewModel();
-            HomePageViewModel.books = _ratingsRepository.GetList();
+            HomePageViewModel.books = _ratingsRepository.GetTopList();
             HomePageViewModel.loginModel = new LoginModel();
             return View(HomePageViewModel);
-        }
-        public IActionResult TopList()
-        {
-            var topList = _ratingsRepository.GetTopList();
-            return View(topList);
         }
         public IActionResult Details(string name)
         {

@@ -16,3 +16,18 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.login-form {
+    color: red;
+    display: flex;
+    flex-direction: column;
+}
+.container2 {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+.book-list {
+    display: flex;
+    flex-direction: row;
+}

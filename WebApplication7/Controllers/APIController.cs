@@ -24,22 +24,23 @@ namespace WebApplication7.Controllers
         {
 
             var client = new HttpClient();
-            var endpoint = new Uri(
-                $"https://www.googleapis.com/books/v1/volumes?q={title}+inauthor:{author}");
+            var endpoint = new Uri($"https://www.googleapis.com/books/v1/volumes?q={title}+inauthor:{author}");
 
             var result = client.GetAsync(endpoint).Result.Content.ReadAsStringAsync().Result;
             var deserializedData = JsonSerializer.Deserialize<JsonElement>(result);
 
             var items = deserializedData.GetProperty("items").EnumerateArray();
             HttpContext.Session.SetString("book_items", deserializedData.ToString());
-            var titles = new List<string>();
+            var books = new List<List<string>>();
             foreach (var item in items )
             {
                 string jsontitle = item.GetProperty("volumeInfo").GetProperty("title").GetString();
-                titles.Add(jsontitle);
+                string jsonauthor = item.GetProperty("volumeInfo").GetProperty("authors").EnumerateArray().FirstOrDefault().GetString();
+                List<string> bookInfo = new List<string> { jsontitle, jsonauthor };
+                books.Add(bookInfo);
             }
-
-            ViewBag.title = titles;
+            var distinct_titles = books.Distinct(new ListEqualityComparer()).ToList();
+            ViewBag.title = distinct_titles;
             return View();
         }
         public IActionResult BookDetails(int id, string name)
@@ -86,6 +87,32 @@ namespace WebApplication7.Controllers
         {
             _ratingsRepository.Delete(title, author);
             return RedirectToAction("Index", "Home");
+        }
+    }
+}
+public class ListEqualityComparer : IEqualityComparer<List<string>>
+{
+    public bool Equals(List<string> x, List<string> y)
+    {
+        if (ReferenceEquals(x, y))
+            return true;
+        if (x is null || y is null)
+            return false;
+        return x.SequenceEqual(y);
+    }
+
+    public int GetHashCode(List<string> obj)
+    {
+        if (obj is null)
+            return 0;
+        unchecked
+        {
+            int hash = 19;
+            foreach (string item in obj)
+            {
+                hash = hash * 31 + item?.GetHashCode() ?? 0;
+            }
+            return hash;
         }
     }
 }

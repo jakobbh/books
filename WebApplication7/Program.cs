@@ -19,7 +19,13 @@ builder.Services.AddDbContext<WebApplication7.Data.ApplicationDbContext>(options
 builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit= false;
+        options.Password.RequireLowercase= false;
+        options.Password.RequireUppercase= false;
+        options.Password.RequireNonAlphanumeric= false;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication(options =>
