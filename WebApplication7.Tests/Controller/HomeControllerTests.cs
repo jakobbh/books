@@ -17,6 +17,8 @@ namespace WebApplication7.Tests.Controller
     {
 
         private readonly IReviewsRepository _ratingsRepository;
+        private readonly IFavouritesRepository _favouritesRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private HomeController _homeController;
         public HomeControllerTests()
@@ -26,7 +28,7 @@ namespace WebApplication7.Tests.Controller
             _httpContextAccessor = A.Fake<HttpContextAccessor>();
 
             //SUT
-            _homeController = new HomeController(_ratingsRepository);
+            _homeController = new HomeController(_ratingsRepository, _favouritesRepository, _userRepository);
         } 
         [Fact]
         public void HomeController_Index_ReturnsSuccess()

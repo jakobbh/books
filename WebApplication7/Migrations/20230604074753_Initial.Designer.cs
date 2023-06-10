@@ -12,8 +12,8 @@ using WebApplication7.Data;
 namespace WebApplication7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230603182642_fixedFavouriteList")]
-    partial class fixedFavouriteList
+    [Migration("20230604074753_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,12 +226,31 @@ namespace WebApplication7.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("WebApplication7.Models.FavouriteBooks", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TitleAuthor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("FavouriteBooks");
+                });
+
             modelBuilder.Entity("WebApplication7.Models.Reviews", b =>
                 {
                     b.Property<string>("TitleAuthor")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Author")
@@ -252,8 +271,6 @@ namespace WebApplication7.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TitleAuthor");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Reviews2");
                 });
@@ -307,18 +324,6 @@ namespace WebApplication7.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.Reviews", b =>
-                {
-                    b.HasOne("WebApplication7.Models.ApplicationUser", null)
-                        .WithMany("Faavouritess2")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Faavouritess2");
                 });
 #pragma warning restore 612, 618
         }

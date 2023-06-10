@@ -9,7 +9,7 @@ namespace WebApplication7.Data.Interfaces
         bool AddReview(string title, int rating, string author);
         IEnumerable<Reviews> GetList();
         bool Delete(string title, string author);
-        bool Favourite(string title, string author);
+        bool Favourite(string title, string author, string username);
         bool Save();
     }
 }

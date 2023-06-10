@@ -48,6 +48,7 @@
         <form method="post" asp-action="Favourite" asp-controller="Home">
             <input name="title" value="@item.Title" hidden>
             <input name="author" value="@item.Author" hidden>
+            <input name="username" value="@Context.User.Identity.Name" hidden>
             <button>Favourite</button>
         </form>
         <form method="post" asp-action="Delete" asp-controller="API">
@@ -59,3 +60,8 @@
 </div>
     </div>
 </div>
+
+<form method="post" asp-action="MyFavourites" asp-controller="Home">
+    <input name="username" value="@Context.User.Identity.Name" hidden>
+    <button>My Favourites</button>
+</form>

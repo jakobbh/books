@@ -20,5 +20,10 @@ namespace WebApplication7.Repository
             var user = _context.AspNetUsers.FirstOrDefault(u => u.Email == email);
             return user;
         }
+        public ApplicationUser GetUserByUsername(string username)
+        {
+            var user = _context.AspNetUsers.FirstOrDefault(u => u.UserName == username);
+            return user;
+        }
     }
 }

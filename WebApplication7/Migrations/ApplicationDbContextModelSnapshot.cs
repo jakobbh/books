@@ -223,12 +223,30 @@ namespace WebApplication7.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WebApplication7.Models.Reviews", b =>
+            modelBuilder.Entity("WebApplication7.Models.FavouriteBooks", b =>
                 {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("TitleAuthor")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserId")
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "TitleAuthor");
+
+                    b.ToTable("FavouriteBooks");
+                });
+
+            modelBuilder.Entity("WebApplication7.Models.Reviews", b =>
+                {
+                    b.Property<string>("TitleAuthor")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Author")
@@ -249,8 +267,6 @@ namespace WebApplication7.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TitleAuthor");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Reviews2");
                 });
@@ -304,18 +320,6 @@ namespace WebApplication7.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.Reviews", b =>
-                {
-                    b.HasOne("WebApplication7.Models.ApplicationUser", null)
-                        .WithMany("Faavouritess2")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("WebApplication7.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Faavouritess2");
                 });
 #pragma warning restore 612, 618
         }

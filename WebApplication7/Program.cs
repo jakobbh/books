@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<WebApplication7.Data.ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFavouritesRepository, FavouritesRepository>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {

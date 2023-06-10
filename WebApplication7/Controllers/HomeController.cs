@@ -9,10 +9,14 @@ namespace WebApplication7.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IReviewsRepository _ratingsRepository;
+        private readonly IFavouritesRepository _favouritesRepository;
+        private readonly IUserRepository _userRepository;
 
-        public HomeController(IReviewsRepository ratingsRepository)
+        public HomeController(IReviewsRepository ratingsRepository, IFavouritesRepository favouritesRepository, IUserRepository userRepository)
         {
             _ratingsRepository = ratingsRepository;
+            _favouritesRepository = favouritesRepository;
+            _userRepository = userRepository;
             //_logger = logger;
         }
         public IActionResult Index()
@@ -28,11 +32,34 @@ namespace WebApplication7.Controllers
             return View(book);
         }
 
-        public IActionResult Favourite(string title, string author)
+        public IActionResult Favourite(string title, string author, string username)
         {
-            _ratingsRepository.Favourite(title, author);
+            var TitleAuthor = title + author;
+            if(_favouritesRepository.GetFavourite(TitleAuthor) != null)
+            {
+                return RedirectToAction("Index");
+            }
+            _ratingsRepository.Favourite(title, author, username);
             return RedirectToAction("Index");
         }
+
+        public IActionResult MyFavourites()
+        {
+            var username = User.Identity.Name;
+            var user = _userRepository.GetUserByUsername(username);
+            var userId = user.Id;
+            var favouritesList = _favouritesRepository.GetFavourites(userId);
+            return View(favouritesList);
+        }
+        [HttpPost]
+        public IActionResult RemoveFavourite(string TitleAuthor)
+        {
+            _favouritesRepository.RemoveFavourite(TitleAuthor);
+            return RedirectToAction("MyFavourites");
+        }
+
+
+
 
 
         public IActionResult Privacy()
