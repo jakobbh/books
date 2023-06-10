@@ -11,6 +11,7 @@
 *.userprefs
 
 WebApplication7/appsettings.json
+WebApplication7/Migrations
 
 
 # Build results
