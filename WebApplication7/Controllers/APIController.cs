@@ -52,6 +52,7 @@ namespace WebApplication7.Controllers
             string description = "test";
 
             var book = _ratingsRepository.GetByTitle(name);
+            var rating = (double)book.RatingSum / book.RatingCount;
             if (book == null)
             {
                 var newModel = new ReviewsandRatingViewModel
@@ -59,7 +60,8 @@ namespace WebApplication7.Controllers
                     Title = title,
                     Author = author,
                     RatingCount = 0,
-                    RatingSum = 0
+                    RatingSum = 0,
+                    Rating = 0
                 };
                 return View(newModel);
             }
@@ -68,7 +70,8 @@ namespace WebApplication7.Controllers
                 Title = book.Title,
                 Author = book.Author,
                 RatingCount = book.RatingCount,
-                RatingSum = book.RatingSum
+                RatingSum = book.RatingSum,
+                Rating = rating
             };
             return View(model);
         }

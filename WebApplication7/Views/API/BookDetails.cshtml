@@ -13,7 +13,7 @@
 {
     @Model.Title
     <br />
-    <h2>Rating: @(((float)Model.RatingSum / Model.RatingCount).ToString("0.0"))</h2>
+    <h2>Rating: @(Model.Rating)</h2>
 @*    @if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)*@
     @if (User.Identity.IsAuthenticated)
     {
@@ -27,6 +27,7 @@
             <div>
                 <label asp-for="@Model.BookRating">Rating:</label>
                 <input asp-for="@Model.BookRating" />
+                <span asp-validation-for="@Model.BookRating" class="text-danger"></span>
             </div>
 
             <button type="submit">Submit</button>
@@ -52,7 +53,6 @@ else {
     </form>
 }
 
-
-
-
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
