@@ -6,7 +6,7 @@ namespace WebApplication7.Data.Interfaces
     {
         Reviews GetByTitle(string name);
         IEnumerable<Reviews> GetTopList();
-        bool AddReview(string title, int rating, string author);
+        bool AddReview(string title, int rating, string author, string imageLink);
         IEnumerable<Reviews> GetList();
         bool Delete(string title, string author);
         bool Favourite(string title, string author, string username);

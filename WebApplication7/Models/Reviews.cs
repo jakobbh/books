@@ -9,9 +9,9 @@ namespace WebApplication7.Models
         public string TitleAuthor { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
+        public string ImageLink { get; set; }
         public int RatingSum { get; set; }
         public int RatingCount { get; set; }
         public int Rating { get; set; }
-
     }
 }

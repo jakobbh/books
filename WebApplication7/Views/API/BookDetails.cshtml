@@ -14,6 +14,8 @@
     @Model.Title
     <br />
     <h2>Rating: @(Model.Rating)</h2>
+    <img src="@Model.ImageLink">
+    <p>@Model.ImageLink</p>
 @*    @if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)*@
     @if (User.Identity.IsAuthenticated)
     {
@@ -23,6 +25,7 @@
             <input type="hidden" asp-for="@Model.TitleAuthor" value="@(Model.Title + Model.Author)" />
             <input type="hidden" asp-for="@Model.Title" value="@Model.Title" />
             <input type="hidden" asp-for="@Model.Author" value="@Model.Author" />
+            <input type="hidden" asp-for="@Model.ImageLink" value="@Model.ImageLink" />
 
             <div>
                 <label asp-for="@Model.BookRating">Rating:</label>
@@ -43,6 +46,7 @@ else {
         <input type="hidden" asp-for="@Model.TitleAuthor" value="@(Model.Title + Model.Author)" />
         <input type="hidden" asp-for="@Model.Title" value="@Model.Title" />
         <input type="hidden" asp-for="@Model.Author" value="@Model.Author" />
+        <input type="hidden" asp-for="@Model.ImageLink" value="@Model.ImageLink" />
 
         <div>
             <label asp-for="@Model.BookRating">Rating:</label>

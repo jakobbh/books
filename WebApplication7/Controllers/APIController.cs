@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Drawing;
 using System.Net.Http;
 using System.Text.Json;
 using WebApplication7.Data.Interfaces;
@@ -36,7 +37,8 @@ namespace WebApplication7.Controllers
             {
                 string jsontitle = item.GetProperty("volumeInfo").GetProperty("title").GetString();
                 string jsonauthor = item.GetProperty("volumeInfo").GetProperty("authors").EnumerateArray().FirstOrDefault().GetString();
-                List<string> bookInfo = new List<string> { jsontitle, jsonauthor };
+                string jsonimage = item.GetProperty("volumeInfo").GetProperty("imageLinks").GetProperty("thumbnail").GetString();
+                List<string> bookInfo = new List<string> { jsontitle, jsonauthor, jsonimage };
                 books.Add(bookInfo);
             }
             var distinct_titles = books.Distinct(new ListEqualityComparer()).ToList();
@@ -49,19 +51,19 @@ namespace WebApplication7.Controllers
             var items = raw_items.GetProperty("items").EnumerateArray().ToArray();
             string title = items[id].GetProperty("volumeInfo").GetProperty("title").GetString();
             string author = items[id].GetProperty("volumeInfo").GetProperty("authors")[0].GetString();
+            string imageLink = items[id].GetProperty("volumeInfo").GetProperty("imageLinks").GetProperty("thumbnail").GetString();
             string description = "test";
 
             var book = _ratingsRepository.GetByTitle(name);
-            var rating = (double)book.RatingSum / book.RatingCount;
             if (book == null)
             {
                 var newModel = new ReviewsandRatingViewModel
                 {
                     Title = title,
                     Author = author,
+                    ImageLink = imageLink,
                     RatingCount = 0,
                     RatingSum = 0,
-                    Rating = 0
                 };
                 return View(newModel);
             }
@@ -69,9 +71,9 @@ namespace WebApplication7.Controllers
             {
                 Title = book.Title,
                 Author = book.Author,
+                ImageLink = book.ImageLink,
                 RatingCount = book.RatingCount,
                 RatingSum = book.RatingSum,
-                Rating = rating
             };
             return View(model);
         }
@@ -82,7 +84,7 @@ namespace WebApplication7.Controllers
         [HttpPost]
         public IActionResult AddReview(ReviewsandRatingViewModel model)
         {
-            _ratingsRepository.AddReview(model.Title, model.BookRating, model.Author);
+            _ratingsRepository.AddReview(model.Title, model.BookRating, model.Author, model.ImageLink);
             return RedirectToAction("Index", "Home");
         }
 

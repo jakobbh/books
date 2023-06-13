@@ -27,7 +27,7 @@ namespace WebApplication7.Repository
             var topList = _context.Reviews2.FromSqlRaw($"SELECT TOP 3 * FROM Reviews2 ORDER BY ratingSum DESC").ToList();
             return topList;
         }
-        public bool AddReview(string title, int bookrating, string author)
+        public bool AddReview(string title, int bookrating, string author, string imageLink)
         {
             if (_context.Reviews2.FirstOrDefault<Reviews>(i => i.Title == title) == null)
             {
@@ -38,6 +38,7 @@ namespace WebApplication7.Repository
                 review.RatingCount = 1;
                 review.RatingSum = bookrating;
                 review.Rating = bookrating;
+                review.ImageLink = imageLink;
                 _context.Reviews2.Add(review);
             }
             else
