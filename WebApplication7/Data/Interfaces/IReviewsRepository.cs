@@ -8,7 +8,7 @@ namespace WebApplication7.Data.Interfaces
         IEnumerable<Reviews> GetTopList();
         bool AddReview(string title, int rating, string author, string imageLink);
         IEnumerable<Reviews> GetList();
-        bool Delete(string title, string author);
+        bool Delete(string titleAuthor);
         bool Favourite(string title, string author, string username);
         bool Save();
     }

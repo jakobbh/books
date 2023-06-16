@@ -37,7 +37,15 @@ namespace WebApplication7.Controllers
             {
                 string jsontitle = item.GetProperty("volumeInfo").GetProperty("title").GetString();
                 string jsonauthor = item.GetProperty("volumeInfo").GetProperty("authors").EnumerateArray().FirstOrDefault().GetString();
-                string jsonimage = item.GetProperty("volumeInfo").GetProperty("imageLinks").GetProperty("thumbnail").GetString();
+                string jsonimage;
+                try
+                {
+                    jsonimage = item.GetProperty("volumeInfo").GetProperty("imageLinks").GetProperty("thumbnail").GetString();
+                }
+                catch (KeyNotFoundException)
+                {
+                    jsonimage = "empty image";
+                }
                 List<string> bookInfo = new List<string> { jsontitle, jsonauthor, jsonimage };
                 books.Add(bookInfo);
             }
@@ -51,8 +59,15 @@ namespace WebApplication7.Controllers
             var items = raw_items.GetProperty("items").EnumerateArray().ToArray();
             string title = items[id].GetProperty("volumeInfo").GetProperty("title").GetString();
             string author = items[id].GetProperty("volumeInfo").GetProperty("authors")[0].GetString();
-            string imageLink = items[id].GetProperty("volumeInfo").GetProperty("imageLinks").GetProperty("thumbnail").GetString();
-            string description = "test";
+            string imageLink;
+            try
+            {
+                imageLink = items[id].GetProperty("volumeInfo").GetProperty("imageLinks").GetProperty("thumbnail").GetString();
+            }
+            catch(KeyNotFoundException)
+            {
+                imageLink = "empty image";
+            }
 
             var book = _ratingsRepository.GetByTitle(name);
             if (book == null)
@@ -88,9 +103,9 @@ namespace WebApplication7.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Delete(string title, string author)
+        public IActionResult Delete(string titleAuthor)
         {
-            _ratingsRepository.Delete(title, author);
+            _ratingsRepository.Delete(titleAuthor);
             return RedirectToAction("Index", "Home");
         }
     }

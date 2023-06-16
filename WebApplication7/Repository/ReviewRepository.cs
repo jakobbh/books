@@ -51,9 +51,9 @@ namespace WebApplication7.Repository
             }
             return Save();
         }
-        public bool Delete(string title, string author)
+        public bool Delete(string titleAuthor)
         {
-            var book = _context.Reviews2.FirstOrDefault(i => i.TitleAuthor == title+author);
+            var book = _context.Reviews2.FirstOrDefault(i => i.TitleAuthor == titleAuthor);
             _context.Remove(book);
             return Save();
         }
